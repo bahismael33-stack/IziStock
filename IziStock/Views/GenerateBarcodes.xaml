@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="IziStock.Views.GenerateBarcodes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IziStock.Views"
+             xmlns:models="clr-namespace:IziStock.Models"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:viewModels="clr-namespace:IziStock.ViewModels"
+             d:DataContext="{d:DesignInstance Type={x:Type viewModels:GenerateBarcodesViewModel}}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" 
+                    Content="Retour au menu principal" Margin="15,5,5,5" Padding="10" Height="40" Command="{Binding GoToMainMenu}"/>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Générer des codes-barres" FontWeight="Bold" FontSize="16" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel Grid.Row="1" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Nombre de pages" Margin="0,0,10,0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+                <mahapps:NumericUpDown Width="100" Value="{Binding NumberOfPages, UpdateSourceTrigger=PropertyChanged}" 
+                                       TextAlignment="Left"
+                                       VerticalContentAlignment="Center" FontSize="14"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Label Content="Format de papier" Margin="0,0,10,0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+                <ComboBox Width="125" ItemsSource="{Binding PaperSizes}" IsEditable="False"
+                          SelectedIndex="{Binding PaperSizeSelectedIndex}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding}" FontSize="14"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Label Content="Type de code-barres" Margin="0,0,10,0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+                <ComboBox Width="125" ItemsSource="{Binding BarcodeTypes}" IsEditable="False"
+                          SelectedIndex="{Binding BarcodeTypeSelectedIndex}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding}" FontSize="14"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Span FontWeight="Bold" FontSize="16">Outputs <Run Text="{Binding NumberOfBarcodesOutput}"/> barcodes</Span>
+            </TextBlock>
+            <Button HorizontalAlignment="Center" 
+                    Content="Générer le PDF des codes-barres" Margin="5,5,5,5" Padding="10" Height="40" Command="{Binding GenerateBarcodes}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

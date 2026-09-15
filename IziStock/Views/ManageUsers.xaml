@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="IziStock.Views.ManageUsers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IziStock.Views"
+             xmlns:models="clr-namespace:IziStock.Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" 
+                    Content="Retour au menu principal" Margin="15,5,5,5" Padding="10" Height="40" Command="{Binding GoToMainMenu}"/>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Gérer les utilisateurs" FontWeight="Bold" FontSize="16" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <DataGrid Grid.Row="1" Grid.Column="0" Name="UsersGrid" ItemsSource="{Binding Users}" d:DataContext="{d:DesignInstance Type={x:Type models:User}}"
+                  IsReadOnly="True" CanUserAddRows="False" AutoGenerateColumns="False" CanUserDeleteRows="False"
+                  SelectionUnit="FullRow" SelectedItem="{Binding SelectedUser}"
+                  SelectionMode="Single" GridLinesVisibility="All" 
+                  RowHeaderWidth="0" Background="LightGray" BorderBrush="Gray" BorderThickness="1"
+                  ColumnHeaderStyle="{StaticResource NoCapsColumnHeader}">
+            <DataGrid.Style>
+                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                </Style>
+            </DataGrid.Style>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nom d'utilisateur" Binding="{Binding Username}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="Nom" Binding="{Binding Name}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" >
+            <Button Content="Ajouter un utilisateur" Margin="5,35,5,0" Padding="10" Height="40" Command="{Binding MoveToAddUserScreen}"
+                    FontSize="13"/>
+            <Button Content="Modifier l'utilisateur" Margin="5,35,5,0" Padding="10" Height="40" Command="{Binding MoveToEditUserScreen}"
+                    IsEnabled="{Binding CanEditDeleteCurrentUser}" FontSize="13"/>
+            <Button Content="Supprimer l'utilisateur" Margin="5,35,5,0" Padding="10" Height="40"
+                    IsEnabled="{Binding CanEditDeleteCurrentUser}" Click="DeleteUser_Click"
+                    FontSize="13"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
